@@ -88,5 +88,3 @@ app.listen(process.env.PORT || 4444, (err) => {
 
   console.log("Server OK");
 });
-
-// "mongodb+srv://Vlad:wwwwww@cluster0.llt1kxl.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0"
