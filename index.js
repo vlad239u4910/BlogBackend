@@ -3,17 +3,25 @@ import fs from "fs";
 import multer from "multer";
 import cors from "cors";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 import mongoose from "mongoose";
 
 import {
   registerValidation,
   loginValidation,
   postCreateValidation,
+  commentCreateValidation,
 } from "./validations.js";
 
 import { handleValidationErrors, checkAuth } from "./utils/index.js";
 
-import { UserController, PostController } from "./controllers/index.js";
+import {
+  UserController,
+  PostController,
+  CommentsController,
+} from "./controllers/index.js";
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -81,10 +89,26 @@ app.patch(
   PostController.update
 );
 
-app.listen(process.env.PORT || 4444, (err) => {
+// comments
+
+app.get("/posts/:postid/comments", CommentsController.getAllbyPostId);
+
+app.get("/comments", CommentsController.getAll);
+
+app.post(
+  "/posts/:postid/comment",
+  checkAuth,
+  commentCreateValidation,
+  handleValidationErrors,
+  CommentsController.create
+);
+
+app.delete("/comment/:id", checkAuth, CommentsController.remove);
+
+app.listen(process.env.PORT, (err) => {
   if (err) {
     return console.log(err);
   }
 
-  console.log("Server OK");
+  console.log("Server ok");
 });
