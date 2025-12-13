@@ -13,7 +13,7 @@ export const registerValidation = [
     min: 5,
   }),
   body("fullName", "Please provide your name").isLength({ min: 3 }),
-  body("avatarUrl", "Invalid avatar URL").optional().isURL(),
+  body("avatarUrl", "Invalid avatar URL").optional().isString(),
 ];
 
 export const postCreateValidation = [
